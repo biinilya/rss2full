@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"syscall"
 
-	"github.com/judwhite/go-svc/svc"
+	"github.com/judwhite/go-svc"
 	"github.com/julienschmidt/httprouter"
 	"github.com/sirupsen/logrus"
 )

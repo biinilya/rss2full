@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"mime"
+	"net"
 	"net/http"
 	"net/url"
 	"strings"
@@ -20,7 +22,14 @@ import (
 )
 
 var httpClient = &http.Client{
-	Timeout: time.Second * 45,
+	Timeout: time.Second * 180,
+	Transport: &http.Transport{
+		MaxIdleConnsPerHost:   10,
+		ResponseHeaderTimeout: time.Second * 180,
+		DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
+			return net.DialTimeout(network, addr, time.Second*180)
+		},
+	},
 }
 
 func httpGet(url string) (*http.Response, error) {
